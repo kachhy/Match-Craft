@@ -129,6 +129,7 @@ class Admin(commands.Cog):
         general_channel = await interaction.guild.create_text_channel(name = f"{game_name}-general", category=category, reason=None)
 
         if not role_based_matchmaking:
+            await interaction.response.send_message(view=EmbedView(myText="Finished setting up game."),ephemeral=True)
             return
         
         def check_user(m):
