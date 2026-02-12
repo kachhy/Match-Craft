@@ -73,7 +73,7 @@ class Admin(commands.Cog):
 
     # TODO: Move this elsewhere
     @app_commands.command(name="creategame", description="Creates a new game")
-    async def creategame(self, interaction: discord.Interaction, game_name : str, teams : int, players_per_team : int, role_based_matchmaking : bool, num_roles : int | None):
+    async def creategame(self, interaction: discord.Interaction, game_name : str, teams : int, players_per_team : int, role_based_matchmaking : bool, admin_role : discord.Role, num_roles : int | None):
         if not self.verifyAdmin(interaction.user):
             await interaction.response.send_message(view=EmbedView(myText="This comnand is reserved for administrators"),ephemeral=True)
             return
@@ -96,8 +96,19 @@ class Admin(commands.Cog):
             return
         
         # Create the channels
-        # category = await interaction.guild.create_category(game_name, overwrites = None, reason = None)
-        # await interaction.guild.create_text_channel()
+        category = await interaction.guild.create_category(game_name, reason=None)
+        announcements_override = {
+            interaction.guild.default_role: discord.PermissionOverwrite(
+                view_channel=True, 
+                send_messages=False
+            ),
+            admin_role: discord.PermissionOverwrite(
+                view_channel=True, 
+                send_messages=True
+            )
+        }
+        announcements_channel = await interaction.guild.create_text_channel(name = f"{game_name}-annnouncements", overwrites = announcements_override, category=category, reason=None)
+        general_channel = await interaction.guild.create_text_channel(name = f"{game_name}-general", category=category, reason=None)
 
         if not role_based_matchmaking:
             return
@@ -121,10 +132,9 @@ class Admin(commands.Cog):
             except:
                 await interaction.followup.send(view=EmbedView(myText="Unable to insert role information into database"),ephemeral=True)
                 return
-        
+
+        await db.close()
         await interaction.followup.send(view=EmbedView(myText="Finished setting up game."),ephemeral=True)
-            
-    
  
     @app_commands.command(name="getadmins",description="ADMINS ONLY: Displays all current Admin users")
     async def getadmins(self,interaction: discord.Interaction):
