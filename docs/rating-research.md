@@ -31,5 +31,6 @@ Trueskill. It is most ideal for the number of people in the community and scales
 ## References
 https://en.wikipedia.org/wiki/TrueSkill
 https://en.wikipedia.org/wiki/Glicko_rating_system
+https://en.wikipedia.org/wiki/Elo_rating_system
 https://pypi.org/project/glicko2
 https://trueskill.org
