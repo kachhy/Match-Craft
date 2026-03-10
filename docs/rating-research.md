@@ -21,6 +21,13 @@
 ## Best option
 Trueskill. It is most ideal for the number of people in the community and scales well for larger groups. Also, it's built for many game formats (1v1, NvN, NvNvN, etc.) and takes far fewer games to compute an accurate rating for players. Implementation will be done via a python library.
 
+### Updates
+* Users will have to store TrueSkill constants (mu -> rating, sigma -> confidence, last time played)
+* We will need to use established default constants for these values
+* Displaying regular MMR based on confidence (iirc it was something like mu - 2 sigma)
+* On the end of a game, values need to be updated of course.
+* (Maybe) check if a game is fair using the Trueskill "match quality" valuation
+
 ## References
 https://en.wikipedia.org/wiki/TrueSkill
 https://en.wikipedia.org/wiki/Glicko_rating_system
