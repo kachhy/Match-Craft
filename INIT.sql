@@ -4,6 +4,8 @@ CREATE TABLE administrative_roles (
 
 CREATE TABLE game_configuration (
     game_name VARCHAR(50) PRIMARY KEY,
+    guild BIGINT,
+    category BIGINT,
     players_per_team INT,
     team_count INT,
     role_count INT
